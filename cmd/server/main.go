@@ -53,6 +53,9 @@ func main() {
 	r.Post("/servers/{id}/action", h.ServerAction)
 	r.Get("/servers/{id}/logs", h.GetServerLogs)
 	r.Post("/server", h.CreateServer)
+	health := &api.HealthHandler{DB: db}
+	r.Get("/healthz", health.Healthz)
+	r.Get("/readyz", health.Healthz)
 	srv := &http.Server{
 		Addr:    addr,
 		Handler: r,
